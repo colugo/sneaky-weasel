@@ -1,0 +1,40 @@
+---
+layout: accelerator
+---
+
+<script lang="text/javascript">
+
+  $(function() {
+    $("#reset-button").click(function(){
+      var storage_prefix = "accelerator-appointment-";
+      var jane = {email:"jane@email.com", first_name:"Jane", last_name:"Smith"};
+      var jack = {email:"jack@email.com", first_name:"Jack", last_name:"Smith"};
+      localStorage.setItem(storage_prefix + jane.email, JSON.stringify(jane));
+      localStorage.setItem(storage_prefix + jack.email, JSON.stringify(jack));
+      localStorage.removeItem(storage_prefix + "sign-in-email");
+      $("#title").fadeOut(function() {
+        $(this).text("Reset!")
+      }).fadeIn();
+    });
+      $("#start-button").click(function(){
+        window.location.assign("start.html")
+      });
+  });
+
+</script>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1 id="title">Want to start over?</h1>
+    <p>
+      Here, you can reset the prototype.
+    </p>
+    <p>
+      Be careful! You will lose anything you've done in the prototype so far!
+    </p>
+    <p>
+      <button type="button" class="btn btn-danger" id="reset-button">Reset</button>
+      <button type="button" class="btn btn-primary" id="start-button">Have another go</button>
+    </p>
+  </div>
+</div>

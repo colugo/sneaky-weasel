@@ -1,0 +1,45 @@
+---
+layout: accelerator
+title: Appointment booking
+---
+
+<script lang="text/javascript">
+
+  $(function() {
+
+    var storage_prefix = "accelerator-appointment-";
+    var jane = {email:"jane@email.com", first_name:"Jane", last_name:"Smith"};
+    var jack = {email:"jack@email.com", first_name:"Jack", last_name:"Smith"};
+    localStorage.setItem(storage_prefix + jane.email, JSON.stringify(jane));
+    localStorage.setItem(storage_prefix + jack.email, JSON.stringify(jack));
+
+
+      $('#sign-in-form').on('submit', function(e) {
+          e.preventDefault();
+          var key = storage_prefix + "email";
+          var value = $("#inputEmail").val();
+          localStorage.setItem(key, value);
+
+          window.location.assign("details.html")
+      });
+  });
+
+</script>
+
+<div class="container">
+
+     <form id="sign-in-form" class="form-signin">
+       <h2 class="form-signin-heading">Please sign in</h2>
+       <label for="inputEmail" class="sr-only">Email address</label>
+       <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+       <label for="inputPassword" class="sr-only">Password</label>
+       <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+       <div class="checkbox">
+         <label>
+           <input type="checkbox" value="remember-me"> Remember me
+         </label>
+       </div>
+       <button class="btn btn-lg btn-primary btn-block" type="submit" id="sign-in">Sign in</button>
+     </form>
+
+   </div>

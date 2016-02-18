@@ -1,0 +1,44 @@
+---
+layout: accelerator
+---
+<script type="text/javascript">
+  $(function() {
+    var storage_prefix = "accelerator-appointment-";
+    var email = localStorage.getItem(storage_prefix + "email");
+
+    var user = $.parseJSON(localStorage.getItem(storage_prefix + email));
+    $("#firstName").val(user.first_name);
+    $("#lastName").val(user.last_name);
+    $("#email").val(user.email);
+
+
+  });
+
+</script>
+
+<div class="text-center">
+  <h1>Welcome back!</h1>
+  <p>
+    Could you please confirm your details are still correct?
+  </p>
+</div>
+
+<form >
+
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input type="text" class="form-control" id="firstName">
+  </div>
+
+  <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input type="text" class="form-control" id="lastName">
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input type="email" class="form-control" id="email">
+  </div>
+
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
