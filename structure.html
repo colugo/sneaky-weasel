@@ -1,0 +1,23 @@
+---
+layout: landing
+---
+
+<a name="home"></a>
+<div class="jumbotron">
+  <div class="container">
+    <h1>Accelerator inner-workings</h1>
+    <p>
+        Each accelerator follows a simple structure, contained in a seperate directory, which helps you merge the parts you like from multiple accelerators, and helps keep things consistent for your users who are evaluating prototypes.
+    </p>
+      The folder structure of an accelerator follows this form:
+      <ul class="outline">
+        <li><b>root folder: </b>This contains all the files that are unique to this accelerator. Alpha-in-a-box is built using Jekyll, which uses templates to minimise duplication, and common components (such as the HTML HEAD element declarations, and the accelerator navigation footer, are implemented using Jekyll templates)</li>
+        <ul>
+          <li><b>index.html: </b>Outlines the accelerator's business and technical approach, and highlights the key areas that implementers should be aware of when making adapting the accelerator</li>
+          <li><b>reset.html: </b>Used to initialise and reset the accelerator between runs, allowing users to go back and try things again</li>
+          <li><b>start.html: </b>The entry page of the accelerator, which is where your users will start their journey through the prototype</b></li>
+          <li><b>style.css: </b>Custom styling that you'd like to apply to the prototype</li>
+        </ul>
+      </ul>
+  </div>
+</div>

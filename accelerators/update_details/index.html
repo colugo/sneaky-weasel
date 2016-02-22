@@ -1,0 +1,84 @@
+---
+layout: accelerator
+---
+{% include accelerator-navbar.html %}
+<link href="../../css/custom.css" rel="stylesheet">
+
+<script lang="text/javascript">
+
+  $(function() {
+    $("#go-button").click(function(){
+      window.location.assign("reset.html")
+    });
+  });
+
+</script>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>Update User Details</h1>
+    <p>Allows users to identify themselves by email and password before having access to view and update their details</p>
+  </div>
+
+<h2>How does this accelerator work?</h2>
+<p>All accelerators follow a basic structure, which is outlined <a href="../../structure.html">here</a>.</p>
+<p>The Update User Details accelerator uses <a href="http://www.w3schools.com/html/html5_webstorage.asp">localStorage</a> to share information between the pages of the accelerator.</p>
+<p>The information stored in localStorage is local to each user's browser and <b><i>isn't shared with anyone else</i></b>, which means your users are free to experiment without fear of someone else snooping on what they're doing. That being said, anything stored in localStorage will hang around untill it is cleared, and as with all alpha-in-a-box accelerators, the accelerator's reset page will remove any user specified information from localStorage.</p>
+
+<h2>Accelerator journey</h3>
+  <p>
+    <ol>
+      <li>Users land on a login page, asking for an email and password, with the current list of known emails displayed underneath the login page.</li>
+      <li>When a user enters one of the known email addresses, and any non-empty password, they are directed to the details update page: details.html</li>
+      <li>Users are presented with their details: first name, last name, and email address. Theses details can be updated, and any changes will be refelected next time the same user logs in.</li>
+    </ol>
+  </p>
+
+<h2>Tech details<h2>
+
+<h3>Javascript</h3>
+<p>All required javascript is inlined within pages, and heavily relies on <a href="http://www.w3schools.com/jquery/jquery_syntax.asp">jQuery</a> for behaviour. For example, to make something happen when a user clicks a button, the following jQuery is used:</p>
+<pre>
+  <code class="language-javascript">
+  $(function() {
+    $('#sign-out').on('click', function(){
+      localStorage.removeItem(storage_prefix + "email");
+      window.location.assign("start.html")
+    });
+  });
+  </code>
+</pre>
+<p>which waits for the DOM tree to be constructed before binding an anonymous function to the click event of the sign out button.
+<h3>User data</h3>
+<p>localStorage is a simple key:value system, which is great, but the keys are globally shared with all pages hosted from the same domain, which is a recipie for disaster if they aren't managed correctly. In this accelerator, as with all accelerators, all keys used for localStorage are prefixed with a string specific to the accelerator, in this case <code class="language-javascript">accelerator-update-details-</code>, which prevents collisions with other prototypes run from the same domain.</p>
+
+
+<h3>Page flow</h3>
+<p>
+  <ol start="0">
+    <li>The prototype is initialised by <b>reset.html</b>, which removes all keys from localStorage that start with the accelerator's prefix string, and inserts canned users Jack and Jane
+      <pre>
+        <code class="language-javascript">
+          var jane = {email:"jane@email.com", first_name:"Jane", last_name:"Smith"};
+          var jack = {email:"jack@email.com", first_name:"Jack", last_name:"Smith"};
+
+          localStorage.setItem(storage_prefix + jane.email, JSON.stringify(jane));
+          localStorage.setItem(storage_prefix + jack.email, JSON.stringify(jack));
+        </code>
+      </pre>
+    </li>
+    <li>Users are directed to <b>start.html</b> where they can log on with using any of the emails that are stored in localStorage. The list of known email addresses are displayed below the form, which were found by iterating through the localStorage, looking for keys that start with the accelerator's prefix. Initially jane@email.com and jack@email.com will work, after entering a non-empty password. If users change these email addresses, the previous emals won't work for logging in. </li>
+    <li>After providing a valid email, a key is added to localStorage <code class="language-javascript">accelerator-update-details-email</code> which holds the logged-in email address, and the user is redirected to <b>details.html</b></li>
+    <li>The user's details are retrieved from localStorage, which is keyed on user's email addresses, and displayed in a form for the user to update. The user can also log out, which will remove the logged in email addresss from localStorage</li>
+  </ol>
+</p>
+
+
+
+<h2>I'm ready!</h2>
+<p>
+  You'll need to reset the prototype first, which you can do by clicking on this button:
+  <button type="button" class="btn btn-primary" id="go-button">Let's go!</button>
+</p>
+
+</div>

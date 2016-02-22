@@ -1,0 +1,66 @@
+---
+layout: accelerator
+---
+<script type="text/javascript">
+  $(function() {
+    var storage_prefix = "accelerator-update-details-";
+    var email = localStorage.getItem(storage_prefix + "email");
+
+    var user = $.parseJSON(localStorage.getItem(storage_prefix + email));
+    $("#firstName").val(user.first_name);
+    $("#firstNameHeader").text(user.first_name);
+    $("#lastName").val(user.last_name);
+    $("#email").val(user.email);
+
+    $('#sign-out').on('click', function(){
+      localStorage.removeItem(storage_prefix + "email");
+      window.location.assign("start.html")
+    });
+
+    $('#update-form').on('submit', function(e) {
+        e.preventDefault();
+
+        var signedOnEmail = localStorage.getItem(storage_prefix + "email");
+        var previousUserDetails = $.parseJSON(localStorage.getItem(storage_prefix + signedOnEmail));
+
+        var previousUsersEmailKey = storage_prefix + previousUserDetails.email;
+        localStorage.removeItem(previousUsersEmailKey);
+
+        var value = $("#email").val();
+        var updatedUser = {email:$("#email").val(), first_name:$("#firstName").val(), last_name:$("#lastName").val()};
+
+        localStorage.setItem(storage_prefix + updatedUser.email, JSON.stringify(updatedUser));
+
+    });
+
+  });
+
+</script>
+
+<div class="text-center">
+  <h1>Welcome back <span id="firstNameHeader"></span>!</h1>
+  <p>
+    Could you please confirm your details are still correct?
+  </p>
+</div>
+
+<form id="update-form">
+
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input type="text" class="form-control" id="firstName">
+  </div>
+
+  <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input type="text" class="form-control" id="lastName">
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input type="email" class="form-control" id="email">
+  </div>
+
+  <button type="submit" class="btn btn-default">Update</button>
+  <button class="btn btn-info" id="sign-out">Sign out</button>
+</form>

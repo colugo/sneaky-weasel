@@ -1,0 +1,59 @@
+---
+layout: accelerator
+title: Appointment booking
+---
+
+<script lang="text/javascript">
+
+  var storage_prefix = "accelerator-update-details-";
+
+  function showKnownEmails(){
+    for(var i = 0; i < localStorage.length; i++){
+      var key = localStorage.key(i);
+      if(key.indexOf(storage_prefix) == 0 && key.indexOf("@") != -1) {
+        var value = localStorage.getItem(key);
+        var actualKey = key.replace(storage_prefix, "");
+
+        $("#knownEmails").append($("<li>").html(actualKey));
+
+      }
+    }
+  }
+
+  $(function() {
+
+    showKnownEmails();
+
+      $('#sign-in-form').on('submit', function(e) {
+          e.preventDefault();
+          var key = storage_prefix + "email";
+          var value = $("#inputEmail").val();
+
+          if(localStorage.getItem(storage_prefix + value) != null){
+            localStorage.setItem(key, value);
+            window.location.assign("details.html");
+          }else{
+            $("#message").addClass("alert alert-danger").html("Sorry, that email was incorrect");
+          }
+      });
+  });
+
+</script>
+
+<div class="container">
+
+     <form id="sign-in-form" class="form-signin">
+       <h2 class="form-signin-heading">Please sign in</h2>
+       <label for="inputEmail" class="sr-only">Email address</label>
+       <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+       <label for="inputPassword" class="sr-only">Password</label>
+       <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+       <div id="message"></div>
+       <button class="btn btn-lg btn-primary btn-block" type="submit" id="sign-in">Sign in</button>
+     </form>
+
+     <p>You can only log on with these email addresses, and any password will work</p>
+       <ul>
+        <div id="knownEmails"></div>
+      </ul>
+   </div>

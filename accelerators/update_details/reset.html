@@ -6,19 +6,30 @@ layout: accelerator
 
   $(function() {
     $("#reset-button").click(function(){
-      var storage_prefix = "accelerator-appointment-";
+      var storage_prefix = "accelerator-update-details-";
+
+      for(var i = localStorage.length - 1; i >=0; i--){
+        var key = localStorage.key(i);
+        if(key.indexOf(storage_prefix) == 0) {
+          localStorage.removeItem(key);
+        }
+      }
+
       var jane = {email:"jane@email.com", first_name:"Jane", last_name:"Smith"};
       var jack = {email:"jack@email.com", first_name:"Jack", last_name:"Smith"};
+
       localStorage.setItem(storage_prefix + jane.email, JSON.stringify(jane));
       localStorage.setItem(storage_prefix + jack.email, JSON.stringify(jack));
-      localStorage.removeItem(storage_prefix + "sign-in-email");
+
       $("#title").fadeOut(function() {
         $(this).text("Reset!")
       }).fadeIn();
     });
-      $("#start-button").click(function(){
-        window.location.assign("start.html")
-      });
+
+    $("#start-button").click(function(){
+      window.location.assign("start.html")
+    });
+
   });
 
 </script>

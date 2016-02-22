@@ -38,3 +38,9 @@ form {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+p, li {
+  font-size: 21px;
+  font-weight: 200;
+  margin:10px;
+}
