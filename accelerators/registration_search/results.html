@@ -1,0 +1,133 @@
+---
+layout: accelerator
+---
+{% include accelerator-navbar.html %}
+<link href="../../css/custom.css" rel="stylesheet">
+
+<script lang="text/javascript">
+
+  var storage_prefix = "registration-search-";
+  var vehicle;
+
+  function showInfringements(vehicle){
+    $("#infringements").empty();
+    for(var i = 0; i < vehicle.infringements.length; i++)
+    {
+      var infringement = vehicle.infringements[i];
+
+      $("#infringements").append(
+          $("<li class=\"list-group-item\">").html(infringement)
+             .append($("<button type=\"button\" class=\"btn btn-warning pull-right\">Delete</button>")
+                     .click(function() {
+                         var index = vehicle.infringements.indexOf(infringement);
+                         if(index != -1) {
+                           vehicle.infringements.splice(index, 1);
+                           localStorage.setItem(storage_prefix + vehicle.plate, JSON.stringify(vehicle));
+                         }
+                        showInfringements(vehicle);
+                      })
+                    )
+      );
+    }
+  }
+
+  $(function() {
+
+    var plate = localStorage.getItem(storage_prefix + "search");
+    var vehicle = $.parseJSON(localStorage.getItem(storage_prefix + plate));
+
+
+    showInfringements(vehicle);
+
+    $("#licensePlate").text(vehicle.plate);
+    $("#vehicleClass").text(vehicle.type);
+    if(vehicle.registered){
+      $("#registrationStatus").addClass("alert-success");
+      $("#registrationStatus").html("Valid<p>Expires " + vehicle.expires + "</div></p>");
+    }else{
+      $("#registrationStatus").addClass("alert-danger");
+      $("#registrationStatus").html("Invalid<p>Expired " + vehicle.expires + "</div></p>");
+    }
+    $("#vehicleMake").text(vehicle.make);
+    $("#vehicleModel").text(vehicle.model);
+    $("#ownerName").text(vehicle.owner);
+    $("#ownerAddress").text(vehicle.address);
+
+
+    $('#infringement_button').click(function(e) {
+      var plate = localStorage.getItem(storage_prefix + "search");
+      var vehicle = $.parseJSON(localStorage.getItem(storage_prefix + plate));
+      vehicle.infringements.push($("#newInfringement").val());
+      $("#newInfringement").val('');
+      localStorage.setItem(storage_prefix + vehicle.plate, JSON.stringify(vehicle));
+      showInfringements(vehicle);
+    });
+
+  });
+
+</script>
+
+<div class="container">
+  <a href="start.html">
+    <p>
+    <i class="glyphicon glyphicon-chevron-left"></i>
+    Back</p>
+  </a>
+  <div class="row">
+    <div class="col-md-4 pull-left">
+      <h1><small>Vehicle Registration</small>
+        <div id="licensePlate" class="upper"></div>
+        <div id="vehicleClass"></div>
+      </h1>
+    </div>
+    <div class="col-md-4 pull-right">
+        <h1 class="text-center alert" id="registrationStatus"></h1>
+    </div>
+  </div>
+</div>
+
+<div class="container detailCallout">
+
+  <div class="row">
+    <div class="col-md-4 pull-left">
+      <h2>
+        <small><div id="vehicleMake" class="upper"></div></small>
+        <div id="vehicleModel" class="upper"></div>
+        <small><div id="vehicleColour" class="lower">white</div></small>
+      </h2>
+    </div>
+
+    <div class="col-md-4 pull-right">
+      <h2>
+        <div id="ownerName"></div>
+        <small><div id="ownerAddress" class="upper"></div></small>
+      </h2>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="panel panel-default">
+        <div class="panel-heading"><big>Traffic infringements</big></div>
+        <div class="panel-body">
+
+          <div class="input-group">
+              <input type="text" class="form-control input-lg" placeholder="New infringement" id="newInfringement"/>
+              <span class="input-group-btn">
+                  <button class="btn btn-info btn-lg" type="button" id="infringement_button">
+                      <i class="glyphicon glyphicon-plus"></i>
+                  </button>
+              </span>
+          </div>
+
+          <ul class="list-group">
+            <div id="infringements"></div>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

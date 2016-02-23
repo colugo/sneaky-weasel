@@ -1,0 +1,31 @@
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+p, li {
+  font-size: 21px;
+  font-weight: 200;
+  margin:10px;
+}
+
+#licensePlate{
+  font-weight: bold;
+}
+
+#vehicleClass{
+  font-size:50%;
+}
+
+.detailCallout{
+  background-color: white;
+}
+
+.upper{
+  text-transform: uppercase;
+}
+
+.lower{
+  text-transform: lower;
+}

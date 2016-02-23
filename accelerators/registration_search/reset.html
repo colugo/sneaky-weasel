@@ -1,0 +1,56 @@
+---
+layout: accelerator
+---
+
+<script lang="text/javascript">
+
+  $(function() {
+    $("#reset-button").click(function(){
+      var storage_prefix = "registration-search-";
+
+      for(var i = localStorage.length - 1; i >=0; i--){
+        var key = localStorage.key(i);
+        if(key.indexOf(storage_prefix) == 0) {
+          localStorage.removeItem(key);
+        }
+      }
+
+
+
+      var hilux = {plate:"YYY123", type:"Light Commercial", registered:true, expires:"12/12/2017", make:"Toyota", model:"Hilux", owner:"John Citizen", address:"12 Fake Street, Faketown", infringements:["Speeding"]};
+      localStorage.setItem(storage_prefix + hilux.plate, JSON.stringify(hilux));
+
+      var echo = {plate:"YYY234", type:"Passenger", registered:false, expires:"12/12/2015", make:"Toyota", model:"Echo", owner:"Marge Citizen", address:"23 Fake Drive, Faketown", infringements:["Crash","Parking"]};
+      localStorage.setItem(storage_prefix + echo.plate, JSON.stringify(echo));
+
+
+
+
+      $("#title").fadeOut(function() {
+        $(this).text("Reset!")
+      }).fadeIn();
+    });
+
+    $("#start-button").click(function(){
+      window.location.assign("start.html")
+    });
+
+  });
+
+</script>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1 id="title">Want to start over?</h1>
+    <p>
+      Here, you can reset the prototype.
+    </p>
+    <p>
+      Be careful! You will lose anything you've done in the prototype so far!
+    </p>
+    <p>
+      <button type="button" class="btn btn-danger" id="reset-button">Reset</button>
+      <button type="button" class="btn btn-primary" id="start-button">Have another go</button>
+    </p>
+  </div>
+</div>

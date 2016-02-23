@@ -1,0 +1,63 @@
+---
+layout: accelerator
+---
+{% include accelerator-navbar.html %}
+<link href="../../css/custom.css" rel="stylesheet">
+
+<script lang="text/javascript">
+
+  var storage_prefix = "registration-search-";
+
+
+  function showKnownPlates(){
+    for(var i = 0; i < localStorage.length; i++){
+      var key = localStorage.key(i);
+      if(key.indexOf(storage_prefix) == 0 && key.indexOf("search-search") == -1) {
+        var value = localStorage.getItem(key);
+        var actualKey = key.replace(storage_prefix, "");
+
+        $("#knownPlates").append($("<li>").html(actualKey));
+
+      }
+    }
+  }
+
+
+  $(function() {
+
+    showKnownPlates();
+
+      $('#search_button').click(function(e) {
+          var plate = $("#plate").val().toUpperCase();
+          if(localStorage.getItem(storage_prefix + plate) != null){
+            localStorage.setItem(storage_prefix + "search", plate);
+            window.location.assign("results.html");
+          }
+          else{
+            $("#message").addClass("alert alert-danger").html("Sorry, that license plate wasn't found");
+          }
+      });
+  });
+
+</script>
+
+<div class="container">
+  <div class="center-block" style="width: 20em;">
+		<h2>Vehicle Search</h2>
+    <div id="message"></div>
+      <div class="input-group">
+          <input type="text" class="form-control input-lg upper" placeholder="License plate" id="plate"/>
+          <span class="input-group-btn">
+              <button class="btn btn-info btn-lg" type="button" id="search_button">
+                  <i class="glyphicon glyphicon-search"></i>
+              </button>
+          </span>
+      </div>
+  </div>
+
+  <p>These are the only license plates that will work with this prototype:</p>
+    <ul>
+     <div id="knownPlates"></div>
+   </ul>
+
+</div>
